@@ -18,7 +18,7 @@ class CategoriesScreen extends StatelessWidget {
           mainAxisSpacing: 20, // spacing between the rows
         ),
         children: [
-          for (final index in [1, 2, 3, 4, 5, 6])
+          for (final index in List.generate(8, (index) => ++index))
             Center(
               child: Text(
                 index.toString(),
