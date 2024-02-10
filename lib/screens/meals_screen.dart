@@ -1,7 +1,8 @@
-import 'package:favorite_meals/models/category.dart';
 import 'package:flutter/material.dart';
 
+import 'package:favorite_meals/models/category.dart';
 import 'package:favorite_meals/models/meal.dart';
+import 'package:favorite_meals/widgets/meal_item.dart';
 
 class MealsScreen extends StatelessWidget {
   const MealsScreen({
@@ -44,11 +45,8 @@ class MealsScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           final meal = meals[index];
 
-          return Text(
-            meal.title,
-            style: const TextStyle(
-              color: Colors.white,
-            ),
+          return MealItem(
+            meal: meal,
           );
         },
       );
