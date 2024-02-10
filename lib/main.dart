@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:favorite_meals/data/dummy_data.dart';
 import 'package:favorite_meals/models/category.dart';
 import 'package:favorite_meals/screens/categories_screen.dart';
-import 'package:favorite_meals/screens/meals_screen.dart';
 
 const dummyCategory = Category(
   id: 'c2',
@@ -33,12 +31,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: theme,
       debugShowCheckedModeBanner: false,
-      home: MealsScreen(
-        category: dummyCategory,
-        meals: dummyMeals
-            .where((meal) => meal.categories.contains(dummyCategory.id))
-            .toList(),
-      ),
+      home: const CategoriesScreen(),
     );
   }
 }
