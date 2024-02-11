@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
-import 'package:favorite_meals/models/category.dart';
 import 'package:favorite_meals/models/meal.dart';
 import 'package:favorite_meals/widgets/meal_item.dart';
 
 class MealsScreen extends StatelessWidget {
   const MealsScreen({
     super.key,
-    required this.category,
+    this.title,
     required this.meals,
   });
 
-  final Category category;
+  final String? title;
   final List<Meal> meals;
 
   @override
@@ -52,10 +51,14 @@ class MealsScreen extends StatelessWidget {
       );
     }
 
+    if (title == null) {
+      return mainContent;
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          category.title,
+          title!,
         ),
         centerTitle: true,
       ),

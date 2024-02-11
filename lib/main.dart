@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:favorite_meals/models/category.dart';
-import 'package:favorite_meals/screens/categories_screen.dart';
+import 'package:favorite_meals/screens/tabs_screen.dart';
 
 const dummyCategory = Category(
   id: 'c2',
@@ -31,7 +31,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: theme,
       debugShowCheckedModeBanner: false,
-      home: const CategoriesScreen(),
+      home: const TabsScreen(),
     );
   }
 }
