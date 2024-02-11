@@ -57,6 +57,7 @@ class MealsScreen extends StatelessWidget {
         title: Text(
           category.title,
         ),
+        centerTitle: true,
       ),
       body: mainContent,
     );
