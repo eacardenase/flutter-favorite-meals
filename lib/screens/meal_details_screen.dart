@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:favorite_meals/models/meal.dart';
+import 'package:favorite_meals/widgets/meal_ingredients.dart';
+import 'package:favorite_meals/widgets/meal_steps.dart';
 
 class MealDetailsScreen extends StatelessWidget {
   const MealDetailsScreen({
@@ -25,53 +27,20 @@ class MealDetailsScreen extends StatelessWidget {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Image.network(
-              meal.imageUrl,
-              height: 300,
-              width: double.infinity,
-              fit: BoxFit.cover,
-            ),
-            const SizedBox(height: 10),
-            Text(
-              'Ingredients',
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-            const SizedBox(height: 14),
-            for (final ingredient in meal.ingredients)
-              Text(
-                ingredient,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.onBackground,
-                    ),
-              ),
-            const SizedBox(height: 24),
-            Text(
-              'Steps',
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-            ),
-            const SizedBox(height: 14),
-            for (final step in meal.steps)
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 30, vertical: 6),
-                child: Text(
-                  step,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Theme.of(context).colorScheme.onBackground,
-                      ),
-                ),
-              )
-          ],
-        ),
+      body: ListView(
+        scrollDirection: Axis.vertical,
+        children: [
+          Image.network(
+            meal.imageUrl,
+            height: 300,
+            width: double.infinity,
+            fit: BoxFit.cover,
+          ),
+          const SizedBox(height: 10),
+          MealIngredients(ingredients: meal.ingredients),
+          const SizedBox(height: 24),
+          MealSteps(steps: meal.steps)
+        ],
       ),
     );
   }
