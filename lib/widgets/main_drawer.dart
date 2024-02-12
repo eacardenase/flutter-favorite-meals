@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 
+import 'package:favorite_meals/screens/tabs_screen.dart';
+
 class MainDrawer extends StatelessWidget {
-  const MainDrawer({super.key});
+  const MainDrawer({
+    super.key,
+    required this.onSelectScreen,
+  });
+
+  final void Function(ScreenIdentifier) onSelectScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +63,9 @@ class MainDrawer extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onBackground,
                   ),
             ),
-            onTap: () {},
+            onTap: () {
+              onSelectScreen(ScreenIdentifier.meals);
+            },
           ),
           ListTile(
             leading: Icon(
@@ -71,7 +80,9 @@ class MainDrawer extends StatelessWidget {
                     color: Theme.of(context).colorScheme.onBackground,
                   ),
             ),
-            onTap: () {},
+            onTap: () {
+              onSelectScreen(ScreenIdentifier.filters);
+            },
           ),
         ],
       ),
