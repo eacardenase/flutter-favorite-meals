@@ -1,3 +1,4 @@
+import 'package:favorite_meals/data/dummy_data.dart';
 import 'package:flutter/material.dart';
 
 import 'package:favorite_meals/models/meal.dart';
@@ -7,6 +8,13 @@ import 'package:favorite_meals/screens/meals_screen.dart';
 import 'package:favorite_meals/widgets/main_drawer.dart';
 
 enum ScreenIdentifier { meals, filters }
+
+const initialFilters = {
+  Filter.glutenFree: false,
+  Filter.lactoseFree: false,
+  Filter.vegetarian: false,
+  Filter.vegan: false,
+};
 
 class TabsScreen extends StatefulWidget {
   const TabsScreen({super.key});
@@ -18,6 +26,7 @@ class TabsScreen extends StatefulWidget {
 class _TabsScreenState extends State<TabsScreen> {
   int _selectedPageIndex = 0;
   final List<Meal> _favoriteMeals = [];
+  Map<Filter, bool> _selectedFilters = initialFilters;
 
   void _showInfoMessage(String message) {
     ScaffoldMessenger.of(context).clearSnackBars();
@@ -62,17 +71,42 @@ class _TabsScreenState extends State<TabsScreen> {
     if (identifier == ScreenIdentifier.filters) {
       final result = await Navigator.of(context).push<Map<Filter, bool>>(
         MaterialPageRoute(
-          builder: (context) => const FiltersScreen(),
+          builder: (context) => FiltersScreen(
+            currentFilters: _selectedFilters,
+          ),
         ),
       );
 
-      print(result);
+      setState(() {
+        _selectedFilters = result ?? initialFilters;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final availableMeals = dummyMeals.where((meal) {
+      if (_selectedFilters[Filter.glutenFree]! && !meal.isGlutenFree) {
+        return false;
+      }
+
+      if (_selectedFilters[Filter.lactoseFree]! && !meal.isLactoseFree) {
+        return false;
+      }
+
+      if (_selectedFilters[Filter.vegetarian]! && !meal.isVegetarian) {
+        return false;
+      }
+
+      if (_selectedFilters[Filter.vegan]! && !meal.isVegan) {
+        return false;
+      }
+
+      return true;
+    }).toList();
+
     Widget activePage = CategoriesScreen(
+      availableMeals: availableMeals,
       onToggleFavoriteMeal: _toggleFavoriteMealStatus,
     );
     var screenTitle = 'Categories';
