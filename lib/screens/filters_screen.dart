@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:favorite_meals/screens/tabs_screen.dart';
-import 'package:favorite_meals/widgets/main_drawer.dart';
+// import 'package:favorite_meals/screens/tabs_screen.dart';
+// import 'package:favorite_meals/widgets/main_drawer.dart';
 
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({
@@ -25,19 +25,19 @@ class _FiltersScreenState extends State<FiltersScreen> {
         centerTitle: true,
         title: const Text('Your Filters'),
       ),
-      drawer: MainDrawer(
-        onSelectScreen: (identifier) {
-          Navigator.of(context).pop();
+      // drawer: MainDrawer(
+      //   onSelectScreen: (identifier) {
+      //     Navigator.of(context).pop();
 
-          if (identifier == ScreenIdentifier.meals) {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => const TabsScreen(),
-              ),
-            );
-          }
-        },
-      ),
+      //     if (identifier == ScreenIdentifier.meals) {
+      //       Navigator.of(context).pushReplacement(
+      //         MaterialPageRoute(
+      //           builder: (context) => const TabsScreen(),
+      //         ),
+      //       );
+      //     }
+      //   },
+      // ),
       body: Column(
         children: [
           SwitchListTile(
