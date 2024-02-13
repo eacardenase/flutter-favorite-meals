@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:favorite_meals/models/category.dart';
 import 'package:favorite_meals/screens/tabs_screen.dart';
@@ -20,7 +23,27 @@ final theme = ThemeData(
 );
 
 void main() {
-  runApp(const App());
+  print("TEST");
+
+  final randomNumbers = [];
+
+  while (randomNumbers.length < 6) {
+    final number = Random().nextInt(10);
+
+    if (randomNumbers.contains(number)) {
+      continue;
+    }
+
+    randomNumbers.add(number);
+  }
+
+  print(randomNumbers);
+
+  runApp(
+    const ProviderScope(
+      child: App(),
+    ),
+  );
 }
 
 class App extends StatelessWidget {
