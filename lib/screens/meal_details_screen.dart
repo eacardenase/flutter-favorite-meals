@@ -7,6 +7,8 @@ import 'package:favorite_meals/providers/favorite_meals_provider.dart';
 import 'package:favorite_meals/widgets/meal_ingredients.dart';
 import 'package:favorite_meals/widgets/meal_steps.dart';
 
+// ConsumerWidget needs a ref parameter on build method
+// ConsumerStatefulWidget already provides it globally
 class MealDetailsScreen extends ConsumerWidget {
   const MealDetailsScreen({
     super.key,

@@ -1,33 +1,19 @@
 import 'package:flutter/material.dart';
 
-// import 'package:favorite_meals/screens/tabs_screen.dart';
-// import 'package:favorite_meals/widgets/main_drawer.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum Filter {
-  glutenFree,
-  lactoseFree,
-  vegetarian,
-  vegan,
-}
+import 'package:favorite_meals/providers/filters_provider.dart';
 
-class FiltersScreen extends StatefulWidget {
+class FiltersScreen extends ConsumerStatefulWidget {
   const FiltersScreen({
     super.key,
-    required this.currentFilters,
   });
 
-  final Map<Filter, bool> currentFilters;
-
   @override
-  State<FiltersScreen> createState() => _FiltersScreenState();
+  ConsumerState<FiltersScreen> createState() => _FiltersScreenState();
 }
 
-class _FiltersScreenState extends State<FiltersScreen> {
-  // late var _glutenFreeFilterSet = widget.currentFilters[Filter.glutenFree];
-  // late var _lactoseFreeFilterSet = widget.currentFilters[Filter.lactoseFree];
-  // late var _vegetarianFilterSet = widget.currentFilters[Filter.vegetarian];
-  // late var _veganFilterSet = widget.currentFilters[Filter.vegan];
-
+class _FiltersScreenState extends ConsumerState<FiltersScreen> {
   var _glutenFreeFilterSet = false;
   var _lactoseFreeFilterSet = false;
   var _vegetarianFilterSet = false;
@@ -37,10 +23,13 @@ class _FiltersScreenState extends State<FiltersScreen> {
   void initState() {
     super.initState();
 
-    _glutenFreeFilterSet = widget.currentFilters[Filter.glutenFree]!;
-    _lactoseFreeFilterSet = widget.currentFilters[Filter.lactoseFree]!;
-    _vegetarianFilterSet = widget.currentFilters[Filter.vegetarian]!;
-    _veganFilterSet = widget.currentFilters[Filter.vegan]!;
+    // initState is only read once, so no need for watch
+    final activeFilters = ref.read(filtersProvider);
+
+    _glutenFreeFilterSet = activeFilters[Filter.glutenFree]!;
+    _lactoseFreeFilterSet = activeFilters[Filter.lactoseFree]!;
+    _vegetarianFilterSet = activeFilters[Filter.vegetarian]!;
+    _veganFilterSet = activeFilters[Filter.vegan]!;
   }
 
   @override
@@ -50,41 +39,19 @@ class _FiltersScreenState extends State<FiltersScreen> {
         centerTitle: true,
         title: const Text('Your Filters'),
       ),
-      // drawer: MainDrawer(
-      //   onSelectScreen: (identifier) {
-      //     Navigator.of(context).pop();
-
-      //     if (identifier == ScreenIdentifier.meals) {
-      //       Navigator.of(context).pushReplacement(
-      //         MaterialPageRoute(
-      //           builder: (context) => const TabsScreen(),
-      //         ),
-      //       );
-      //     }
-      //   },
-      // ),
-
-// canPop: false,
-//   onPopInvoked: (bool didPop) {
-//     if(didPop) return;
-//     Navigator.of(context).pop({
-//       Filter.glutenFree: _glutenFreeFilterSet,
-//       Filter.lactoseFree: _lactoseFreeFilterSet,
-//       Filter.vegetarian: _vegetarianFilterSet,
-//       Filter.vegan: _veganFilterSet,
-//     });
-
       body: PopScope(
         canPop: false,
         onPopInvoked: (didPop) {
           if (didPop) return;
 
-          Navigator.of(context).pop({
+          ref.read(filtersProvider.notifier).setFilters({
             Filter.glutenFree: _glutenFreeFilterSet,
             Filter.lactoseFree: _lactoseFreeFilterSet,
             Filter.vegetarian: _vegetarianFilterSet,
             Filter.vegan: _veganFilterSet,
           });
+
+          Navigator.of(context).pop();
         },
         child: Column(
           children: [
