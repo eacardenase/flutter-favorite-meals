@@ -22,27 +22,6 @@ class _CategoriesScreenState extends State<CategoriesScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
 
-  @override
-  void initState() {
-    super.initState();
-
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(
-        milliseconds: 300,
-      ),
-      lowerBound: 0,
-      upperBound: 1,
-    );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    _animationController.dispose();
-  }
-
   void _selectCategory(BuildContext context, Category category) {
     final filteredMeals = widget.availableMeals
         .where((meal) => meal.categories.contains(category.id))
@@ -59,22 +38,53 @@ class _CategoriesScreenState extends State<CategoriesScreen>
   }
 
   @override
-  Widget build(BuildContext context) {
-    return GridView(
-      padding: const EdgeInsets.all(20),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2, // how many columns
-        childAspectRatio: 3 / 2, // size of each grid element
-        crossAxisSpacing: 20, // spacing between the columns
-        mainAxisSpacing: 20, // spacing between the rows
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(
+        milliseconds: 300,
       ),
-      children: [
-        for (final category in availableCategories)
-          CategoryGridItem(
-            category: category,
-            onSelectCategory: _selectCategory,
-          )
-      ],
+      lowerBound: 0,
+      upperBound: 1,
+    );
+
+    // starts the animation
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _animationController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _animationController,
+      child: GridView(
+        padding: const EdgeInsets.all(20),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2, // how many columns
+          childAspectRatio: 3 / 2, // size of each grid element
+          crossAxisSpacing: 20, // spacing between the columns
+          mainAxisSpacing: 20, // spacing between the rows
+        ),
+        children: [
+          for (final category in availableCategories)
+            CategoryGridItem(
+              category: category,
+              onSelectCategory: _selectCategory,
+            )
+        ],
+      ),
+      builder: (context, child) => Padding(
+        padding: EdgeInsets.only(top: 100 - _animationController.value * 100),
+        child: child,
+      ),
     );
   }
 }
